@@ -1,0 +1,205 @@
+print macro p1
+mov dx,offset p1
+mov ah,9
+int 21h
+endm
+
+.model small
+.stack 100h
+.data
+
+        Menu DB "===============  Welcome to The Calculator  ================$"                  
+        Opt1  DB "Press 'A' For ADDITION$"
+        Opt2  DB "Press 'S' For SUBTRACTION$"
+        Opt3  DB "Press 'M' For MULTIPLICATION$"
+        Opt4  DB "Press 'D' For DIVISION$"
+        Opt5  DB "Press 'E' For EXIT$"
+        Opt6  DB "Press 'R' For RETURN to Main Menu$"
+
+        Format  DB "*******************************$"
+
+        Opt7  DB "Enter Your CHOICE : $"    
+        Num1 DB "Enter First Number : $"
+        Num2 DB "Enter Second Number : $"
+        msg1 db "Remainder = $"
+        msg2 db "Quoitent = $"
+        Ans db "Answer = $"
+        d dw ?
+        m db ?
+        q db ?
+        r db ?
+.code
+main proc
+
+mov ax,@data
+mov ds,ax
+Start:
+print Menu
+call enterkey
+print Opt1
+call enterkey
+print Opt2
+call enterkey
+print Opt3
+call enterkey
+print Opt4
+call enterkey
+print Opt5
+call enterkey
+print Opt6
+call enterkey
+print Format
+call enterkey
+print Opt7
+call input
+
+Cmp al,'A'
+JE addition
+Cmp al,'S'
+JE Subtract  
+;Cmp al,'M'
+;JE Multiply
+;Cmp al,'D'
+;JE Divide
+CMP al,'E'
+JE EXIT
+addition: ;         ->      Addition
+
+call Enterkey
+print Num1
+call input
+mov bl, al
+
+call Enterkey
+print Num2
+call input
+
+add bl, al
+sub bl, 48
+
+mov q,bl
+
+call Enterkey
+print Ans
+
+mov dl,q
+call Output
+call Enterkey
+
+Jmp Start
+
+Subtract: ;        ->      Subtraction
+
+call Enterkey
+print Num1
+call input
+
+mov bl, al
+
+call enterkey
+
+print Num2
+
+call input
+sub bl, al
+add bl, 48
+mov r, bl
+
+call Enterkey
+
+print Ans
+ mov dl,r
+call Output
+call Enterkey
+
+Jmp Start
+
+
+;Multiply: ;        ->      Multiplication
+;
+;call Enterkey
+;print Num1
+;call input
+;mov cl,al
+;call Enterkey
+;print Num2
+;call input
+;mov bl,al
+;mov al,cl
+;call Enterkey
+;print Ans
+;
+;mul bl
+;AAM
+;
+;mov ch,ah
+;mov cl,al
+;mov dl,ch
+;add dl,48
+;call Output
+;
+;mov dl,cl
+;add dl,48
+;
+;call Output
+;
+;call Enterkey
+;Jmp Start
+;
+;Divide:                   ;-> DIVISION
+;
+;call Enterkey
+;print Num1
+;call Enterkey
+;print Num2
+;call Enterkey
+;
+;mov ax,27
+;mov bl,5
+;div bl
+;
+;mov q,al
+;mov r,ah
+;
+;print msg2
+;mov dl,q
+;add dl,48
+;call Output
+;call Enterkey
+;print msg1
+;
+;mov dl,r
+;add dl,48
+;call Output
+;call Enterkey
+;
+;jmp start
+;
+;
+
+Exit: ;        ->      Exit From Code
+mov ah,4ch
+int 21h
+
+main endp
+
+input proc ;        ->          Input Procedure
+ mov ah,1
+ int 21h
+ret
+
+Output proc ;        ->          Output Procedure
+ mov ah,2
+ int 21h
+ret
+
+enterkey proc ;      ->          Enterkey
+ MOV DX,10
+ MOV AH,2
+ INT 21H
+ MOV DX,13
+ MOV AH,2
+ INT 21H
+ret
+
+end main
