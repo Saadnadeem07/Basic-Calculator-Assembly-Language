@@ -1,0 +1,21 @@
+# Assembler / linker build artifacts
+*.obj
+*.OBJ
+*.exe
+*.EXE
+*.lst
+*.LST
+*.map
+*.MAP
+*.crf
+*.CRF
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*~
+.vscode/
+.idea/
+
+# Temporary office lock files
+~$*
